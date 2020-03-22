@@ -3,7 +3,6 @@ const AuthService = require('./auth-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 const { requireAuthAdmin } = require('../middleware/jwt-auth-admin')
 
-
 const authRouter = express.Router()
 const jsonBodyParser = express.json()
 

@@ -1,6 +1,6 @@
 const express = require('express')
 const ReportsService = require('./reports-service');
-const requireAuthAdmin = require('../middleware/jwt-auth-admin')
+const { requireAuthAdmin } = require('../middleware/jwt-auth-admin')
 const reportsRouter = express.Router()
 
 reportsRouter
