@@ -1,5 +1,31 @@
-const ReportsServie = {
-
+const ReportsService = {
+    getAllReports(db){
+        return db
+            .from('myusedcarsalesman_reports as report')
+            .select(
+                'report.id',
+                'report.message',
+                'report.message_type',
+                'report.date_sent',
+                'user.user_name'
+            )      
+            .innerJoin('myusedcarsalesman_users as user', 'report.user_id', 'user.id')
+    },
+    getById(db, id) {
+        return ReportsService.getAllReports(db)
+          .where('report.id', id)
+          .first()
+    },
+    insertReport(db, newReport) {
+        return db
+          .insert(newReport)
+          .into('myusedcarsalesman_reports')
+          .returning('*')
+          .then(([report]) => report)
+          .then(report =>
+            ReportsService.getById(db, report.id)
+          )
+    },
 }
 
-module.exports = ReportsServie
+module.exports = ReportsService;

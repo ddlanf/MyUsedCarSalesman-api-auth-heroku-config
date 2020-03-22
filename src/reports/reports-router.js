@@ -1,12 +1,16 @@
 const express = require('express')
-//const path = require('path')
-//const ReportsService = require('./reports-service');
+const ReportsService = require('./reports-service');
+const requireAuthAdmin = require('../middleware/jwt-auth-admin')
 const reportsRouter = express.Router()
 
 reportsRouter
     .route('/')
-    .get((req, res, next) => {
-        
+    .get(requireAuthAdmin, (req, res, next) => {
+        ReportsService.getAllReports(req.app.get('db'))
+            .then(report => {
+                res.json(report)
+                console.log(report) 
+            })
     })
 
 module.exports = reportsRouter
