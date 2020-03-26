@@ -1,5 +1,6 @@
 const express = require('express')
 const AuthService = require('./auth-service')
+
 const { requireAuth } = require('../middleware/jwt-auth')
 const { requireAuthAdmin } = require('../middleware/jwt-auth-admin')
 
@@ -26,7 +27,12 @@ authRouter
           return res.status(400).json({
             error: 'Incorrect user_name or password',
           })
-
+       else if(dbUser.user_status === 'Blocked'){
+              return res.status(400).json({
+                error: 'This user is blocked',
+              })
+       }
+         
         return AuthService.comparePasswords(loginUser.password, dbUser.password)
           .then(compareMatch => {
             if (!compareMatch)
@@ -82,20 +88,38 @@ authRouter
         .catch(next)
   })
 
-  authRouter.post('/refresh', requireAuth, (req, res) => {
-    const sub = req.user.user_name
-    const payload = { user_id: req.user.id }
-    res.send({
-      authToken: AuthService.createJwt(sub, payload),
-    })
-  })
+ authRouter
+  .get('/check-jwt', (req, res, next) =>{
+        
+      const authToken = req.get('Authorization') || ''
 
-  authRouter.post('/admin-refresh', requireAuthAdmin, (req, res) => {
-    const sub = req.user.admin_name
-    const payload = { admin_id: req.admin.id }
-    res.send({
-      authToken: AuthService.createJwt(sub, payload),
-    })
+      let bearerToken
+      if (!authToken.toLowerCase().startsWith('bearer ')) {
+        return res.status(401).json({ error: 'Missing bearer token' })
+      } else {
+        bearerToken = authToken.slice(7, authToken.length)
+      }
+     
+      try {
+        const payload = AuthService.verifyJwt(bearerToken)
+    
+        AuthService.getUserWithUserName(
+          req.app.get('db'),
+          payload.sub,
+        )
+          .then(user => {
+            if (!user)
+              {return res.status(401).json({ error: 'user not found' })}
+            
+              return res.json('valid')
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      } catch(error) {
+           res.json({ status : 'expired' })
+      }
+    
   })
 
 module.exports = authRouter

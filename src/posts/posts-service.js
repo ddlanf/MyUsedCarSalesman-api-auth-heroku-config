@@ -35,6 +35,12 @@ const PostsService = {
             PostsService.getById(db, post.id)
           )
     },
+    deletePost(db, id) {
+      return db
+        .from('myusedcarsalesman_posts')
+        .where('id', id )
+        .delete()
+     },
     updatePost(db, updatedPost, id){
         return PostsService.getById(db, id)
           .update(updatedPost)

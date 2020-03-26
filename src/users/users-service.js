@@ -19,7 +19,7 @@ const UsersService = {
   },
   validatePassword(password) {
     if (password.length < 8) {
-      return 'Password be longer than 8 characters'
+      return 'Password must be longer than 8 characters'
     }
     if (password.length > 72) {
       return 'Password be less than 72 characters'
@@ -62,6 +62,11 @@ const UsersService = {
   getById(db, id) {
     return UsersService.getAllUsers(db)
       .where('usr.id', id)
+      .first()
+  },
+  getByUserName(db, userName){
+    return UsersService.getAllUsers(db)
+      .where('usr.user_name', userName)
       .first()
   },
   deleteUser(db, user_id) {

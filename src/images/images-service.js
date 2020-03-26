@@ -15,6 +15,10 @@ const ImagesService = {
         return ImagesService.getAllImages(db)
           .where('image.post_id', postId)
     },
+    getBySrc(db, src) {
+      return ImagesService.getAllImages(db)
+        .where('image.src', src)
+    },
     insertImage(db, newImage) {
         return db
           .insert(newImage)
@@ -25,6 +29,10 @@ const ImagesService = {
             ImagesService.getById(db, image.id)
           )
     },
+    updateImage(db, updatedImage, post_id){
+      return ImagesService.getById(db, post_id)
+        .update(updatedImage)
+    }
 }
 
 

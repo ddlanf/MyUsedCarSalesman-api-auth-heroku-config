@@ -31,6 +31,7 @@ imagesRouter
         })
             
     })
+
     
 imagesRouter
     .route('/:post_id')
@@ -39,6 +40,27 @@ imagesRouter
             .then(image => {
                 res.json(image)
              })
+    })
+    .patch(requireAuth, jsonBodyParser, (req, res, next) =>{
+        const { src, alt } = req.body;
+        
+        const { post_id } = req.params
+        
+        const newImage = { src, alt, post_id };
+  
+        const numberOfValues = Object.values(newImage).filter(Boolean).length
+        if (numberOfValues === 0)
+          return res.status(400).json({
+            error: {
+              message: `Request body must content at least one change`
+            }
+        })
+
+        ImagesService.updateImage(req.app.get('db'), newImage, post_id)
+            .then(post => {
+                res.json(post)
+        })
+            
     })
 
 module.exports = imagesRouter

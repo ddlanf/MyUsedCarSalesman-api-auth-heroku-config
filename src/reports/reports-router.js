@@ -9,7 +9,6 @@ reportsRouter
         ReportsService.getAllReports(req.app.get('db'))
             .then(report => {
                 res.json(report)
-                console.log(report) 
             })
     })
 

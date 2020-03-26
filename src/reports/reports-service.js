@@ -7,9 +7,8 @@ const ReportsService = {
                 'report.message',
                 'report.message_type',
                 'report.date_sent',
-                'user.user_name'
+                'report.user_id'
             )      
-            .innerJoin('myusedcarsalesman_users as user', 'report.user_id', 'user.id')
     },
     getById(db, id) {
         return ReportsService.getAllReports(db)

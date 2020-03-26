@@ -70,10 +70,10 @@ usersRouter
 
 usersRouter
   .route('/:user_id')
-  .get(requireAuth, (req, res, next) => {
+  .get(requireAuthAdmin, (req, res, next) => {
     const { user_id } = req.params
     UsersService.getById(req.app.get('db'), user_id)
-        .then(user => res.json(user.email))
+        .then(user => user)
   })
   .delete(requireAuthAdmin, (req, res, next) => {
       const { user_id } = req.params
@@ -98,5 +98,17 @@ usersRouter
         })
     
   })
+
+usersRouter
+  .route('/user-emails/:user_name')
+  .get(requireAuth, (req, res, next) => {
+    const { user_name } = req.params
+    console.log(user_name)
+    
+    UsersService.getByUserName(req.app.get('db'), user_name)
+        .then(user => {
+         res.json(user.email)
+      })
+})
 
 module.exports = usersRouter
