@@ -68,7 +68,7 @@ postsRouter
                 res.json(post)
              })
     })
-    .patch(jsonBodyParser, (req, res, next) =>{
+    .patch(requireAuth, jsonBodyParser, (req, res, next) =>{
         
         const { make, model, year, 
             mileage, description, 

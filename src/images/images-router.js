@@ -8,8 +8,8 @@ imagesRouter
     .route('/')
     .get((req, res, next) => {
         ImagesService.getAllImages(req.app.get('db'))
-            .then(image => {
-                res.json(image)
+            .then(images => {
+                res.json(images)
             })
     })
     .post(requireAuth, jsonBodyParser, (req, res, next) =>{

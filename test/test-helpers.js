@@ -1,6 +1,6 @@
+require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const config = require('../src/config')
 
 function makeUserArray(){
    
@@ -182,9 +182,19 @@ function seedUsers(db, users) {
 }
 
 function seedPosts(db, posts) {
-    return db.into('myusedcarsalesman_posts').insert(posts)
+    return db.insert(posts).into('myusedcarsalesman_posts')
 }
 
+function seedImages(db, images) {
+    images.map(image => {
+         return db.insert(JSON.stringify(image)).into('myusedcarsalesman_images')
+    })
+    
+}
+
+function seedReports(db, reports){
+    return db.insert(reports).into('myusedcarsalesman_reports')
+}
 
  function cleanTables(db) {
     return db.raw(
@@ -200,7 +210,6 @@ function seedPosts(db, posts) {
   function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
     const token = jwt.sign({ user_id: user.id }, secret, {
       subject: user.user_name,
-      expiresIn: config.JWT_EXPIRY,
       algorithm: 'HS256',
     })
     return `Bearer ${token}`
@@ -217,6 +226,8 @@ module.exports = {
     cleanTables,
     seedUsers,
     seedPosts,
+    seedImages,
+    seedReports,
     makeAuthHeader,
     myUsedCarSalesmanFixtures
 }
