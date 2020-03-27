@@ -27,6 +27,16 @@ usersRouter
         }
     }
 
+    if(!newUser.email.includes('@') || !newUser.email.slice(newUser.email.indexOf('@'), newUser.email.length).includes('.')){
+      
+      return res.status(400).json({
+       
+          error: `Invalid email`
+      })
+     } 
+
+     console.log(newUser.email.slice(newUser.email.indexOf('@'), newUser.email.length).includes('.'))
+
     // TODO: check user_name doesn't start with spaces
 
     const passwordError = UsersService.validatePassword(password)
