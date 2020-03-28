@@ -106,7 +106,7 @@ postsRouter
 
         PostsService.updatePost(req.app.get('db'), postToUpdate, post_id)
             .then(numRowsAffected => {
-                    res.status(204).end()
+                    res.status(200).end()
             })
             .catch(next)
            
