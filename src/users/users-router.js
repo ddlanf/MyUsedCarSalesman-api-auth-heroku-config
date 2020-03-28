@@ -20,7 +20,7 @@ usersRouter
     const newUser = { user_name, password, first_name, last_name, email }
 
     for(let [key, value] of Object.entries(newUser)){
-        if(value == null){
+        if(value == null || value === ''){
             return res.status(400).json({
                 error: `Missing '${key}' in request body`
             })

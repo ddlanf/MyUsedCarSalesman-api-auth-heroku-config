@@ -1,6 +1,8 @@
 const express = require('express')
 const { requireAuth } = require('../middleware/jwt-auth')
+const { requireAuthAdmin } = require('../middleware/jwt-auth-admin')
 const PostsService = require('./posts-service');
+const states = require('./states')
 const postsRouter = express.Router()
 const jsonBodyParser = express.json()
 
@@ -28,13 +30,19 @@ postsRouter
             other_terms_and_conditions, 
             user_id : req.user.id
          }
-        
+
         for(let [key, value] of Object.entries(newPost)){
-            if(value == null){
+            if(value == null || value === ''){
                 return res.status(400).json({
                     error: `Missing '${key}' in request body`
                 })
             }
+        }
+
+        if(!states.VerifyLocation(states.getCityFromInput(location), states.getStateFromInput(location))){
+            return res.status(400).json({
+                error: 'Invalid Location'
+            })
         }
 
         PostsService.insertPost(req.app.get('db'), newPost)
@@ -86,6 +94,7 @@ postsRouter
         const { post_id } = req.params 
   
         const numberOfValues = Object.values(postToUpdate).filter(Boolean).length
+        
         if (numberOfValues === 0)
           return res.status(400).json({
             error: {
@@ -93,6 +102,7 @@ postsRouter
             }
         })
 
+        
 
         PostsService.updatePost(req.app.get('db'), postToUpdate, post_id)
             .then(numRowsAffected => {
@@ -100,6 +110,15 @@ postsRouter
             })
             .catch(next)
            
+    })
+
+postsRouter
+    .route('/admin/:post_id')
+    .delete(requireAuthAdmin, (req, res, next) => {
+        PostsService.deletePost(req.app.get('db'), req.params.post_id)
+            .then(post => {
+                res.json(post)
+             })
     })
 
 module.exports = postsRouter
