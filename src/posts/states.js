@@ -65,6 +65,9 @@ states = {
             if(Object.keys(this.states).includes(state)){
                 return state
             }
+            else if(Object.values(this.states).includes(state)){
+                return state
+            }
             return false
         },
         VerifyLocation : function(city, state){

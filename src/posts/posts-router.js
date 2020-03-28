@@ -45,6 +45,31 @@ postsRouter
             })
         }
 
+        if(price > 10000000){
+            return res.status(400).json({
+                error: `This car ain't worth that much brah`
+            })
+        }
+
+        if(mileage > 5000000){
+            return res.status(400).json({
+                error: `Invalid mileage. In fact you'd be on the Guinness World Record if you have a car with ${mileage}`
+            })
+        }
+
+        current_date = new Date()
+        if(year > current_date.getFullYear()){
+            return res.status(400).json({
+                error: `you must be from the future`
+            })
+        }
+
+        if(year <= 1895){
+            return res.status(400).json({
+                error: `dumbass`
+            })
+        }
+
         PostsService.insertPost(req.app.get('db'), newPost)
             .then(post => {
                 res.json(post)
