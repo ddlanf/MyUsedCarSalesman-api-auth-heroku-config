@@ -61,31 +61,46 @@ states = {
         getCities: function(state){
             return yourhandle.getCities('US', this.states[state])
         },
-        VarifyState : function(state){
+        verifyState : function(state){
             if(Object.keys(this.states).includes(state)){
                 return state
             }
             else if(Object.values(this.states).includes(state)){
+                state = Object.keys(this.states)[Object.values(this.states).indexOf(state)]
                 return state
             }
             return false
         },
-        VerifyLocation : function(city, state){
-            const checkState = this.VarifyState(state)
-            if(checkState){
-                    return this.getCities(state).includes(city)
+        verifyCity: function(city, state){
+            if(this.getCities(state).includes(city)){
+                return city
             }
             else{ return false }
         },
         getCityFromInput : function(input){
-            const city = input.slice(0, input.indexOf(','))
+            const city = input.slice(0, input.indexOf(',')).trim()
             return city
         },
         getStateFromInput : function(input){
-            const state = input.slice(input.indexOf(',') + 2, input.length)
+            const state = input.slice(input.indexOf(',') + 1, input.length).trim()
             return state
+        },
+        verifyLocation : function(location){
+            let state = this.getStateFromInput(location)
+            let city = this.getCityFromInput(location)
+
+            state = this.verifyState(state)
+            city = this.verifyCity(city, state)
+
+
+            if(state && city){
+                return city + ', ' + state
+            }
+            else{ return false }
         }
 }
 
 module.exports = states
 
+
+console.log(states.verifyLocation("Bellevue, Washington"))

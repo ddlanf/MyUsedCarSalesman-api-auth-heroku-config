@@ -25,11 +25,12 @@ postsRouter
         const newPost = {
             make, model, year, 
             mileage, description, 
-            commission_amount, 
-            location, price, 
+            commission_amount, price, 
             other_terms_and_conditions, 
-            user_id : req.user.id
+            location, user_id : req.user.id
          }
+
+        
 
         for(let [key, value] of Object.entries(newPost)){
             if(value == null || value === ''){
@@ -39,7 +40,9 @@ postsRouter
             }
         }
 
-        if(!states.VerifyLocation(states.getCityFromInput(location), states.getStateFromInput(location))){
+        newPost.location = states.verifyLocation(location)
+
+        if(!states.verifyLocation(location)){
             return res.status(400).json({
                 error: 'Invalid Location'
             })
@@ -47,26 +50,20 @@ postsRouter
 
         if(price > 10000000){
             return res.status(400).json({
-                error: `This car ain't worth that much brah`
+                error: `Invalid price`
             })
         }
 
         if(mileage > 5000000){
             return res.status(400).json({
-                error: `Invalid mileage. In fact you'd be on the Guinness World Record if you have a car with ${mileage}`
+                error: `Invalid mileage`
             })
         }
 
         current_date = new Date()
-        if(year > current_date.getFullYear()){
+        if(year > current_date.getFullYear() || year <= 1895){
             return res.status(400).json({
-                error: `you must be from the future`
-            })
-        }
-
-        if(year <= 1895){
-            return res.status(400).json({
-                error: `dumbass`
+                error: `Invalid year`
             })
         }
 
@@ -109,6 +106,7 @@ postsRouter
             location, price, 
             other_terms_and_conditions } = req.body
 
+
         const postToUpdate = { 
             make, model, year, 
             mileage, description, 
@@ -127,8 +125,31 @@ postsRouter
             }
         })
 
-        
+        if(location && !states.verifyLocation(location)){
+            return res.status(400).json({
+                error: 'Invalid Location'
+            })
+        }
 
+        if(price && price > 10000000){
+            return res.status(400).json({
+                error: `Invalid price`
+            })
+        }
+
+        if(mileage && mileage > 5000000){
+            return res.status(400).json({
+                error: `Invalid mileage`
+            })
+        }
+
+        current_date = new Date()
+        if(year && year > current_date.getFullYear() || year <= 1895){
+            return res.status(400).json({
+                error: `Invalid year`
+            })
+        }
+        
         PostsService.updatePost(req.app.get('db'), postToUpdate, post_id)
             .then(numRowsAffected => {
                     res.status(200).end()
