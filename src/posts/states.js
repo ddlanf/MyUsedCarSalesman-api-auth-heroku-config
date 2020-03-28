@@ -101,6 +101,3 @@ states = {
 }
 
 module.exports = states
-
-
-console.log(states.verifyLocation("Bellevue, Washington"))
