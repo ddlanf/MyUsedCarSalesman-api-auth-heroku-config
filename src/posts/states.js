@@ -62,6 +62,7 @@ states = {
             return yourhandle.getCities('US', this.states[state])
         },
         verifyState : function(state){
+        
             if(Object.keys(this.states).includes(state)){
                 return state
             }
@@ -72,8 +73,10 @@ states = {
             return false
         },
         verifyCity: function(city, state){
-            if(this.getCities(state).includes(city)){
-                return city
+            let cityCheck = city.toLowerCase()
+            cityCheck = cityCheck.charAt(0).toUpperCase() + cityCheck.slice(1)
+            if(this.getCities(state).includes(cityCheck)){
+                return cityCheck
             }
             else{ return false }
         },
