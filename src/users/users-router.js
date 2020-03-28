@@ -15,6 +15,7 @@ usersRouter
         })
     })
    .post(jsonBodyParser, (req, res, next) => {
+
     const { user_name, password, first_name, last_name, email } = req.body
 
     const newUser = { user_name, password, first_name, last_name, email }
@@ -22,8 +23,13 @@ usersRouter
     for(let [key, value] of Object.entries(newUser)){
         if(value == null || value === ''){
             return res.status(400).json({
-                error: `Missing '${key}' in request body`
+                error: `Missing ${key} in request body`
             })
+        }
+        if(value.trim() !== value){
+          return res.status(400).json({
+            error: `Inputs cannot contain space`
+          })
         }
     }
 
@@ -35,9 +41,7 @@ usersRouter
       })
      } 
 
-     console.log(newUser.email.slice(newUser.email.indexOf('@'), newUser.email.length).includes('.'))
-
-    // TODO: check user_name doesn't start with spaces
+   newUser.email.slice(newUser.email.indexOf('@'), newUser.email.length).includes('.')
 
     const passwordError = UsersService.validatePassword(password)
 

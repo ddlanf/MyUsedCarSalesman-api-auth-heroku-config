@@ -12,7 +12,7 @@ authRouter
     for (const [key, value] of Object.entries(loginUser))
       if (value == null)
         return res.status(400).json({
-          error: `Missing '${key}' in request body`
+          error: `Missing '${key.replace('_', ' ')}' in request body`
         })
 
     AuthService.getUserWithUserName(
@@ -22,7 +22,7 @@ authRouter
       .then(dbUser => {
         if (!dbUser)
           return res.status(400).json({
-            error: 'Incorrect user_name or password',
+            error: 'Incorrect user name or password',
           })
        else if(dbUser.user_status === 'Blocked'){
               return res.status(400).json({
@@ -34,7 +34,7 @@ authRouter
           .then(compareMatch => {
             if (!compareMatch)
               return res.status(400).json({
-                error: 'Incorrect user_name or password',
+                error: 'Incorrect user name or password',
               })
 
             const sub = dbUser.user_name
@@ -65,14 +65,14 @@ authRouter
         .then(dbAdmin => {
           if (!dbAdmin)
             return res.status(400).json({
-              error: 'Incorrect admin_name or password',
+              error: 'Incorrect admin name or password',
             })
 
           return AuthService.comparePasswords(loginAdmin.password, dbAdmin.password)
             .then(compareMatch => {
               if (!compareMatch)
                 return res.status(400).json({
-                  error: 'Incorrect admin_name or password',
+                  error: 'Incorrect admin name or password',
                 })
 
               const sub = dbAdmin.admin_name
