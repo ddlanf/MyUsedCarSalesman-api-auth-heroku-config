@@ -62,13 +62,27 @@ states = {
             return yourhandle.getCities('US', this.states[state])
         },
         verifyState : function(state){
-        
-            if(Object.keys(this.states).includes(state)){
-                return state
+
+            let stateCheck = state;
+            let tempString = []
+            if(!(stateCheck.toUpperCase() === stateCheck) && !(stateCheck.length === 2)){
+                tempString = stateCheck.split(' ');
+                for(i = 0; i < tempString.length; i++){
+                    tempString[i] = tempString[i].charAt(0).toUpperCase() + tempString[i].slice(1).toLowerCase()
+                    console.log(tempString[i])
+                    if(tempString[i] === 'Of'){ tempString[i] = tempString[i].toLowerCase() }
+                }
+                stateCheck = tempString.join(' ')
             }
-            else if(Object.values(this.states).includes(state)){
-                state = Object.keys(this.states)[Object.values(this.states).indexOf(state)]
-                return state
+            else if(stateCheck.length === 2){ stateCheck = stateCheck.toUpperCase().trim() }
+
+            console.log(stateCheck)
+            if(Object.keys(this.states).includes(stateCheck)){
+                return stateCheck
+            }
+            else if(Object.values(this.states).includes(stateCheck)){
+                stateCheck = Object.keys(this.states)[Object.values(this.states).indexOf(stateCheck)]
+                return stateCheck
             }
             return false
         },
