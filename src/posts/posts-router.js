@@ -15,6 +15,7 @@ postsRouter
             })
     })
     .post(requireAuth, jsonBodyParser, (req, res, next) =>{
+        
         const { make, model, year, 
                 mileage, description, 
                 commission_amount, 
