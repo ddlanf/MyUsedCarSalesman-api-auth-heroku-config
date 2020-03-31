@@ -3,8 +3,9 @@
 Website Link: [https://myusedcarsalesman.now.sh](https://myusedcarsalesman.now.sh)
 
 ## Core Features
-This is an express server, which serves the back-end of Myusedcarsalesman App. 
+This an express server used in "Myusedcarsalesman" App. 
 The endpoints this API provides include the following. 
+
 **/api/auth**
 - [POST] /login - login endpoint for users 
 - [POST] /login - login endpoint for administers
