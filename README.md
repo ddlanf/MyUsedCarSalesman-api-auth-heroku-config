@@ -1,26 +1,52 @@
-# Express Boilerplate!
+# **Myusedcarsalesman-auth-server**
 
-This is a boilerplate project used for starting new projects!
+Website Link: [https://myusedcarsalesman.now.sh](https://myusedcarsalesman.now.sh)
 
-## Set up
+## Core Features
+This is an express server, which serves the back-end of Myusedcarsalesman App. 
+The endpoints this API provides include the following. 
+**/api/auth**
+- [POST] /login - login endpoint for users 
+- [POST] /login - login endpoint for administers
+- [GET] /check-jwt - for checking if jwt token has expired
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+**/api/images**
+- [GET] / - get all post images
+- [POST] / - add new image
+- [GET] /:post_id - get an image with corresponding post ID
+- [PATCH] /:post_id - change an image with corresponding post ID
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+**/api/posts**
+- [GET] / - get all posts
+- [POST] / - create a new post
+- [GET] /:post_id - get a post with correspoding post ID
+- [GET] /by-users - get all posts made by the requested user
+- [DELETE] /:post_id - delete a post requested by a user
+- [PATCH] /:post_id - update a post
+- [DELETE] /admin/:post_id - delete a post requested by admin
 
-## Scripts
+**/api/reports**
+- [GET] / - get all user reports
 
-Start the application `npm start`
+**/api/users**
+- [GET] / - get all user information
+- [POST] / - add a new user
+- [GET] /:user_id - get a user information with corresponding ID
+- [DELETE] /:user_id - delete a user with corresponding ID
+- [PATCH] /:user_id - change the status of a user with corresponding ID (Block or Active)
+- [GET] /user-emails/:user-name - get user email with corresponding username
 
-Start nodemon for the application `npm run dev`
+## Technologies used
+- Node.js (Express)
+- JWT Token Authetication
+- PosgresSQL
+- Heroku Server and Database (Deployment)
+- Testing with Mocha, Chai, and Supertest
 
-Run the tests `npm test`
+## Running the server with client locally
+Clone [MyusedCarSalesman-client](https://github.com/ddlanf/MyUsedCarSalesman-client) repository.
+Once you clone both client and server, do the following.
+1. In "myusedcarsalesman-client", change the API_ENDPOINT in config.js to localhost:8000 or any other ports that maybe used.
+2. Configure the CORS setting in "myusedcarsalesman-api-auth" to allow localhost to send requests. This is can be done simply adding app.use(cors()) in App.js file or chaging the value of CLIENT_ORIGIN in config.js  
+3. Run both client and server with "npm start". "npm run dev" can also be used in "myusedcarsalesman-api-auth"
 
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.

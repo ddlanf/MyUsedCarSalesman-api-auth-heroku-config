@@ -123,6 +123,6 @@ usersRouter
         .then(user => {
          res.json(user.email)
       })
-})
+  })
 
 module.exports = usersRouter
