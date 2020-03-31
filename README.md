@@ -1,4 +1,4 @@
-# **Myusedcarsalesman-auth-server**
+# **Myusedcarsalesman-api-auth**
 
 Website Link: [https://myusedcarsalesman.now.sh](https://myusedcarsalesman.now.sh)
 
