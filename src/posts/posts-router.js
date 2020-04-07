@@ -152,8 +152,8 @@ postsRouter
         }
         
         PostsService.updatePost(req.app.get('db'), postToUpdate, post_id)
-            .then(numRowsAffected => {
-                    res.status(200).end()
+            .then(post => {
+                   return res.status(200).json(post)
             })
             .catch(next)
            

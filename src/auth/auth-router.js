@@ -85,7 +85,7 @@ authRouter
         .catch(next)
   })
 
- authRouter
+authRouter
   .get('/check-jwt', (req, res, next) =>{
         
       const authToken = req.get('Authorization') || ''

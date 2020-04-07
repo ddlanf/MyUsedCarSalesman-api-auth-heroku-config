@@ -57,8 +57,8 @@ imagesRouter
         })
 
         ImagesService.updateImage(req.app.get('db'), newImage, post_id)
-            .then(post => {
-                res.status(200).json(post)
+            .then(image => {
+                return res.status(200).json(image)
         })
             
     })
