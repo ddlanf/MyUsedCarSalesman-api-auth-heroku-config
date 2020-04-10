@@ -139,8 +139,8 @@ postsRouter
                     error: 'Invalid city'
                 })
             }
-            
-            newPost.location = states.verifyLocation(location)
+
+            postToUpdate.location = states.verifyLocation(location)
 
             if(!states.verifyLocation(location)){
                 return res.status(400).json({
