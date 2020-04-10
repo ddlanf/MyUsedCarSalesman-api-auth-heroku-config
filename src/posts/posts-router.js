@@ -41,11 +41,17 @@ postsRouter
             }
         }
 
+        if(!states.getCityFromInput(location)){
+            return res.status(400).json({
+                error: 'Invalid city'
+            })
+        }
+        
         newPost.location = states.verifyLocation(location)
 
         if(!states.verifyLocation(location)){
             return res.status(400).json({
-                error: 'Invalid Location'
+                error: 'Invalid state'
             })
         }
 
@@ -57,7 +63,7 @@ postsRouter
 
         if(mileage > 5000000){
             return res.status(400).json({
-                error: `Invalid mileage`
+                error: `Invalid mileage.`
             })
         }
 
@@ -128,7 +134,7 @@ postsRouter
 
         if(location && !states.verifyLocation(location)){
             return res.status(400).json({
-                error: 'Invalid Location'
+                error: 'Invalid state'
             })
         }
 

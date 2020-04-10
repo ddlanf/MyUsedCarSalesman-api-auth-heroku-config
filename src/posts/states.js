@@ -1,5 +1,3 @@
-const yourhandle= require('countrycitystatejson')
-
 states = {
         states : {
                 "AK" : "Alaska", 
@@ -58,9 +56,6 @@ states = {
                 "WV" : "West Virginia", 
                 "WY" : "Wyoming"
         },
-        getCities: function(state){
-            return yourhandle.getCities('US', this.states[state])
-        },
         verifyState : function(state){
 
             let stateCheck = state;
@@ -69,14 +64,12 @@ states = {
                 tempString = stateCheck.split(' ');
                 for(i = 0; i < tempString.length; i++){
                     tempString[i] = tempString[i].charAt(0).toUpperCase() + tempString[i].slice(1).toLowerCase()
-                    console.log(tempString[i])
                     if(tempString[i] === 'Of'){ tempString[i] = tempString[i].toLowerCase() }
                 }
                 stateCheck = tempString.join(' ')
             }
             else if(stateCheck.length === 2){ stateCheck = stateCheck.toUpperCase().trim() }
 
-            console.log(stateCheck)
             if(Object.keys(this.states).includes(stateCheck)){
                 return stateCheck
             }
@@ -85,14 +78,6 @@ states = {
                 return stateCheck
             }
             return false
-        },
-        verifyCity: function(city, state){
-            let cityCheck = city.toLowerCase()
-            cityCheck = cityCheck.charAt(0).toUpperCase() + cityCheck.slice(1)
-            if(this.getCities(state).includes(cityCheck)){
-                return cityCheck
-            }
-            else{ return false }
         },
         getCityFromInput : function(input){
             const city = input.slice(0, input.indexOf(',')).trim()
@@ -107,10 +92,8 @@ states = {
             let city = this.getCityFromInput(location)
 
             state = this.verifyState(state)
-            city = this.verifyCity(city, state)
 
-
-            if(state && city){
+            if(state){
                 return city + ', ' + state
             }
             else{ return false }
