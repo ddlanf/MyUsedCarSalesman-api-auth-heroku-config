@@ -132,10 +132,21 @@ postsRouter
             }
         })
 
-        if(location && !states.verifyLocation(location)){
-            return res.status(400).json({
-                error: 'Invalid state'
-            })
+        if(location){
+
+            if(!states.getCityFromInput(location)){
+                return res.status(400).json({
+                    error: 'Invalid city'
+                })
+            }
+            
+            newPost.location = states.verifyLocation(location)
+
+            if(!states.verifyLocation(location)){
+                return res.status(400).json({
+                    error: 'Invalid state'
+                })
+            }
         }
 
         if(price && price > 10000000){
