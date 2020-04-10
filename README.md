@@ -13,7 +13,7 @@ The endpoints this API provides include the following.
  
 **/api/images**
 - [GET] / - get all post images
-- [POST] / - add new image
+- [POST] / - add a new image
 - [GET] /:post_id - get an image with corresponding post ID
 - [PATCH] /:post_id - change an image with corresponding post ID
  
@@ -48,7 +48,7 @@ The endpoints this API provides include the following.
 Clone [MyusedCarSalesman-client](https://github.com/ddlanf/MyUsedCarSalesman-client) repository.
 Once you clone both client and server, do the following.
 1. In "myusedcarsalesman-client", change the API_ENDPOINT in config.js to localhost:8000 or any other ports that may be used.
-2. Configure the CORS setting in "myusedcarsalesman-api-auth" to allow localhost to send requests. This is can be done simply adding app.use(cors()) in App.js file or changing the value of CLIENT_ORIGIN in config.js  
+2. Configure the CORS setting in "myusedcarsalesman-api-auth" to allow localhost to send requests. This is can be done simply by adding app.use(cors()) in App.js file or changing the value of CLIENT_ORIGIN in config.js  
 3. Run both client and server with "npm start". "npm run dev" can also be used in "myusedcarsalesman-api-auth"
  
  
