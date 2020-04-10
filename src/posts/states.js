@@ -71,7 +71,7 @@ states = {
             else if(stateCheck.length === 2){ stateCheck = stateCheck.toUpperCase().trim() }
 
             if(Object.keys(this.states).includes(stateCheck)){
-                return stateCheck
+                return stateCheck.toUpperCase()
             }
             else if(Object.values(this.states).includes(stateCheck)){
                 stateCheck = Object.keys(this.states)[Object.values(this.states).indexOf(stateCheck)]
